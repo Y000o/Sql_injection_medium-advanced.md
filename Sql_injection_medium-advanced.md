@@ -34,7 +34,7 @@
    * [Codificación URL](#Codificación-URL)
    * [Mayusculas y minusculas](#Mayusculas-y-minusculas)
    * [Codificación Hex](#Codificación-Hex)
-* [Crear payloads codificados](#Crear payloads codificados)
+* [Crear payloads codificados](#Crear-payloads-codificados)
 * [Haciendo uso de funciones sql para obtener información](#Haciendo-uso-de-funciones-sql-para-obtener-información)
    * [RPAD](#RPAD)
    * [SOUNDS LIKE](#SOUNDS-LIKE)
