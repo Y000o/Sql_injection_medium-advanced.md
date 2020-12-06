@@ -4,9 +4,9 @@
 
 ➡️ Este escrito esta enfocado para todas las personas que quieran aprender acerca de las inyecciones sql
 
-    ### Primera parte:
+   ### Primera parte:
     
-    https://github.com/Y000o/sql_injection_basic
+   https://github.com/Y000o/sql_injection_basic
     
 ➡️ Es necesario que primero pases por el primer escito para ponerte al corriente
 
@@ -33,9 +33,9 @@ https://github.com/Y000o/Sql_injection_medium-advanced.md/blob/main/Sql_injectio
 
 ➡️ This writing is focused for all people who want to learn about sql injections
 
-     ### First part:
+  ### First part:
     
-     https://github.com/Y000o/sql_injection_basic
+  https://github.com/Y000o/sql_injection_basic
     
 ➡️ It is necessary that you first go through the first escito to catch up
 
